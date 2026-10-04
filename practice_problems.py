@@ -13,7 +13,18 @@ Output: False
 """
 
 def has_duplicates(product_ids):
-    # Your implementation here
+    seen = set()
+    for pid in product_ids:
+        if pid in seen:
+            return True
+        seen.add(pid)
+    return False
+
+# Justification:
+# I used a set because it provides O(1) average-time membership checks, making it ideal for detecting duplicates efficiently.
+# As we iterate, checking whether an element is already in the set is fast, and insertion is also O(1).
+# Using a list would require O(n) duplicate checks per element, resulting in much slower performance.
+
     pass
 
 
@@ -30,9 +41,25 @@ task_queue.add_task("Code review")
 task_queue.remove_oldest_task() → "Email follow-up"
 """
 
+from collections import deque
+
 class TaskQueue:
     def __init__(self):
-        # Your initialization here
+        self.queue = deque()
+
+    def add_task(self, task):
+        self.queue.append(task)
+
+    def remove_oldest_task(self):
+        if self.queue:
+            return self.queue.popleft()
+        return None
+
+# Justification:
+# I used a deque because it supports O(1) enqueue (append) and O(1) dequeue (popleft), which is perfect for FIFO task processing.
+# A list would make removing from the front O(n), which becomes inefficient as the number of tasks grows.
+# The deque ensures tasks are processed in the exact order they were added. Also, this was the best idea I had. 
+
         pass
 
     def add_task(self, task):
@@ -57,10 +84,16 @@ tracker.get_unique_count() → 2
 
 class UniqueTracker:
     def __init__(self):
-        pass
+        self.seen = set()
 
     def add(self, value):
-        pass
+        self.seen.add(value)
 
     def get_unique_count(self):
-        pass
+        return len(self.seen)
+
+# Justification:
+# I used a set because it automatically maintains unique values and supports O(1) average-time insertion and membership checks.
+# This makes counting unique values extremely efficient, even with large input streams.
+# Using a list would require O(n) duplicate checks, making it slower and less scalable.
+
